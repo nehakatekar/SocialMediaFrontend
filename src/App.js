@@ -1,40 +1,41 @@
+import { useEffect } from 'react'
+import './index.css'
 
-import './App.css';
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 
-import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import Home from './components/Home';
-import Signup from './components/Signup';
-import Login from './components/Login';
-import About from './components/About';
-import Contact from './components/Contact';
-import Topbar from "./components/topbar/Topbar"
+import pageRender from './PageRender';
 
-class App extends Component {
-    render() {
-        return (
-            <div>
+import Home from './pages/home'
+import Login from './pages/login'
 
-                <Router>
+import Alert from './components/alert/Alert';
+import Header from './components/alert/Header';
 
-                    <Navbar />
-                    <Route exact path="/" component={Home} />
+import { useSelector, useDispatch } from 'react-redux'
+import { refreshToken } from './redux/actions/authAction';
 
-                    <Route exact path="/signup" component={Signup} />
+function App() {
+  const { auth } = useSelector(state => state)
+  const dispatch =useDispatch()
 
-                    <Route exact path="/login" component={Login} />
+  useEffect(()=>{
+    dispatch(refreshToken())
+  },[dispatch])
 
-                    <Route exact path="/about" component={About} />
-
-                    <Route exact path="/contact" component={Contact} />
-
-                </Router>
-                {/* <Topbar/> */}
-            </div>
-        )
-    }
+  return (
+    <Router>
+      <Alert />
+      <input type="checkbox" id="theme" />
+      <div className='App'>
+        <div className="main">
+        {auth.token && <Header/>}
+          <Route exact path="/" component={auth.token ? Home : Login} />
+          {/* <Route exact path="/" component={Login} /> */}
+          <Route exact path="/:page" component={pageRender} />
+          <Route exact path="/:page/:id" component={pageRender} />
+        </div>
+      </div>
+    </Router>
+  );
 }
-
-
 export default App;
