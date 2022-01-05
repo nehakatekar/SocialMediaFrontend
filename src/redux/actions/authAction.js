@@ -1,9 +1,6 @@
 import { GLOBALTYPES } from './globalTypes'
 import { postDataAPI } from '../../utils/fetchData'
 import valid from '../../utils/valid'
-
-
-
 export const login = (data) => async (dispatch) => {
     try {
         dispatch({ type:'GLOBALTYPES.ALERT', payload: {loading: true} })
@@ -16,7 +13,6 @@ export const login = (data) => async (dispatch) => {
                 user: res.data.user
             } 
         })
-
         localStorage.setItem("firstLogin", true)
         dispatch({ 
             type: GLOBALTYPES.ALERT, 
@@ -34,8 +30,6 @@ export const login = (data) => async (dispatch) => {
         })
     }
 }
-
-
 export const register = (data) => async (dispatch) => {
     const check = valid(data)
     if(check.errLength > 0)
@@ -69,8 +63,6 @@ export const register = (data) => async (dispatch) => {
         })
     }
 }
-
-
 export const refreshToken = () => async (dispatch) => {
     const firstLogin = localStorage.getItem("firstLogin")
     if(firstLogin){
@@ -98,8 +90,6 @@ export const refreshToken = () => async (dispatch) => {
         }
     }
 }
-
-
 export const logout=() => async(dispatch)=>{
     try {
         localStorage.removeItem('firstLogin')

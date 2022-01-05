@@ -1,5 +1,4 @@
 import React from 'react'
-
 const NotFound = () => {
     return (
         <div className="position-relative" style={{minHeight: 'calc(100vh - 70px)'}}>
